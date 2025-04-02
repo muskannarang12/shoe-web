@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Stride Footwear</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2a2a2a;
+            --secondary: #e63946;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .icons {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+        }
+        
+        .icons i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .icons i:hover {
+            color: var(--secondary);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80') no-repeat center center/cover;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+        }
+        
+        /* Shop Content */
+        .shop-container {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .shop-title h2 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .sort-filter {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .sort-filter select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: var(--white);
+        }
+        
+        .filter-toggle {
+            display: none;
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .shop-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        
+        /* Filters */
+        .filter-section {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .filter-options {
+            list-style: none;
+        }
+        
+        .filter-options li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .filter-options input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .price-range {
+            width: 100%;
+        }
+        
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .filter-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .apply-btn {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+        
+        .reset-btn {
+            background-color: var(--light);
+            border: 1px solid #ddd;
+        }
+        
+        /* Size and Color Options */
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .size-option {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #ddd;
+            background: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .size-option.selected {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .color-option.selected {
+            border-color: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 1.25rem;
+        }
+        
+        .product-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-category {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-rating {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .current-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .add-to-cart {
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background-color: var(--white);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination button:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .pagination button.active {
+            background-color: var(--secondary);
+            color: var(--white);
+            border-color: var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 5rem 5% 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+        
+        .footer-col p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--white);
+        }
+        
+        .newsletter input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .newsletter button {
+            background-color: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter button:hover {
+            background-color: #c1121f;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .shop-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                position: static;
+                margin-bottom: 2rem;
+                display: none;
+            }
+            
+            .filter-section.active {
+                display: block;
+            }
+            
+            .filter-toggle {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .shop-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">STRIDE<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html" class="active">Shop</a>
+                <a href="collections.html">Collections</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-user"></i>
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Shop Our Collection</h1>
+    </section>
+
+    <!-- Shop Content -->
+    <div class="shop-container">
+        <div class="shop-header">
+            <div class="shop-title">
+                <h2>All Products</h2>
+                <p id="product-count">Showing 1-8 of 8 products</p>
+            </div>
+            <div class="sort-filter">
+                <button class="filter-toggle" id="filterToggle">
+                    <i class="fas fa-filter"></i> Filters
+                </button>
+                <select id="sortBy">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                    <option value="rating">Rating: High to Low</option>
+                    <option value="newest">Newest Arrivals</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="shop-content">
+            <!-- Filters Section -->
+            <aside class="filter-section" id="filterSection">
+                <div class="filter-group">
+                    <h3>Categories</h3>
+                    <ul class="filter-options">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="sneakers" checked> Sneakers
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="running"> Running
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="casual"> Casual
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="basketball"> Basketball
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="sandals"> Sandals
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="category" value="formal"> Formal
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Brand</h3>
+                    <ul class="filter-options">
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="nike" checked> Nike
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="adidas"> Adidas
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="puma"> Puma
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="jordan"> Jordan
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="new-balance"> New Balance
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="vans"> Vans
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Price Range</h3>
+                    <input type="range" class="price-range" min="0" max="300" value="300" step="10" id="priceRange">
+                    <div class="price-values">
+                        <span>$0</span>
+                        <span id="maxPriceValue">$300</span>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Size</h3>
+                    <div class="size-options">
+                        <button class="size-option" data-size="6">6</button>
+                        <button class="size-option" data-size="7">7</button>
+                        <button class="size-option" data-size="8">8</button>
+                        <button class="size-option" data-size="9">9</button>
+                        <button class="size-option" data-size="10">10</button>
+                        <button class="size-option" data-size="11">11</button>
+                        <button class="size-option" data-size="12">12</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Color</h3>
+                    <div class="color-options">
+                        <button class="color-option" data-color="black" style="background-color: #000;"></button>
+                        <button class="color-option" data-color="white" style="background-color: #fff; border: 1px solid #ddd;"></button>
+                        <button class="color-option" data-color="red" style="background-color: #e63946;"></button>
+                        <button class="color-option" data-color="blue" style="background-color: #1d3557;"></button>
+                        <button class="color-option" data-color="beige" style="background-color: #f1faee;"></button>
+                        <button class="color-option" data-color="teal" style="background-color: #a8dadc;"></button>
+                    </div>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn apply-btn" id="applyFilters">Apply Filters</button>
+                    <button class="filter-btn reset-btn" id="resetFilters">Reset</button>
+                </div>
+            </aside>
+            
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button id="prevPage"><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button id="nextPage"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>About Us</h3>
+                <p>STRIDE is a premium footwear brand dedicated to providing high-quality, stylish shoes for every occasion.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Payment Methods</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new arrivals and special offers.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Your email address">
+                    <button type="submit">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 STRIDE Footwear. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Product data
+            const products = [
+                {
+                    id: 1,
+                    name: "Nike Air Max",
+                    category: "running",
+                    brand: "nike",
+                    price: 129.99,
+                    originalPrice: 149.99,
+                    rating: 4.5,
+                    ratingCount: 124,
+                    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    badge: "Sale",
+                    sizes: [6, 7, 8, 9, 10, 11],
+                    colors: ["black", "white", "red"],
+                    dateAdded: "2023-05-15"
+                },
+                {
+                    id: 2,
+                    name: "Adidas Originals",
+                    category: "casual",
+                    brand: "adidas",
+                    price: 89.99,
+                    rating: 4.0,
+                    ratingCount: 98,
+                    image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
+                    sizes: [7, 8, 9, 10, 11, 12],
+                    colors: ["black", "white", "blue"],
+                    dateAdded: "2023-06-20"
+                },
+                {
+                    id: 3,
+                    name: "Jordan Retro",
+                    category: "basketball",
+                    brand: "jordan",
+                    price: 159.99,
+                    rating: 5.0,
+                    ratingCount: 215,
+                    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    badge: "New",
+                    sizes: [8, 9, 10, 11, 12],
+                    colors: ["black", "red"],
+                    dateAdded: "2023-07-10"
+                },
+                {
+                    id: 4,
+                    name: "Puma Suede",
+                    category: "casual",
+                    brand: "puma",
+                    price: 79.99,
+                    originalPrice: 89.99,
+                    rating: 4.5,
+                    ratingCount: 76,
+                    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
+                    sizes: [6, 7, 8, 9, 10],
+                    colors: ["black", "white", "beige"],
+                    dateAdded: "2023-04-05"
+                },
+                {
+                    id: 5,
+                    name: "Nike Air Force",
+                    category: "casual",
+                    brand: "nike",
+                    price: 99.99,
+                    originalPrice: 119.99,
+                    rating: 4.0,
+                    ratingCount: 182,
+                    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80",
+                    badge: "Sale",
+                    sizes: [7, 8, 9, 10, 11, 12],
+                    colors: ["white", "black"],
+                    dateAdded: "2023-03-12"
+                },
+                {
+                    id: 6,
+                    name: "New Balance 574",
+                    category: "casual",
+                    brand: "new-balance",
+                    price: 109.99,
+                    rating: 5.0,
+                    ratingCount: 143,
+                    image: "https://images.unsplash.com/photo-1605348532760-6753d2c43329?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+                    sizes: [6, 7, 8, 9, 10],
+                    colors: ["black", "blue", "beige"],
+                    dateAdded: "2023-02-18"
+                },
+                {
+                    id: 7,
+                    name: "Adidas Ultraboost",
+                    category: "running",
+                    brand: "adidas",
+                    price: 179.99,
+                    rating: 4.5,
+                    ratingCount: 167,
+                    image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
+                    badge: "New",
+                    sizes: [8, 9, 10, 11, 12],
+                    colors: ["black", "white", "teal"],
+                    dateAdded: "2023-07-25"
+                },
+                {
+                    id: 8,
+                    name: "Vans Old Skool",
+                    category: "casual",
+                    brand: "vans",
+                    price: 69.99,
+                    rating: 4.0,
+                    ratingCount: 89,
+                    image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
+                    sizes: [6, 7, 8, 9, 10, 11],
+                    colors: ["black", "white", "red"],
+                    dateAdded: "2023-01-30"
+                }
+            ];
+            
+            // Cart functionality
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Update cart count
+            function updateCartCount() {
+                const cartCount = document.querySelector('.cart-count');
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                
+                if (cartCount) {
+                    cartCount.textContent = totalItems;
+                    cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+                }
+            }
+            
+            // Initialize cart count
+            updateCartCount();
+            
+            // Toggle filters on mobile
+            const filterToggle = document.getElementById('filterToggle');
+            const filterSection = document.getElementById('filterSection');
+            
+            if (filterToggle && filterSection) {
+                filterToggle.addEventListener('click', function() {
+                    filterSection.classList.toggle('active');
+                });
+            }
+            
+            // Price range display
+            const priceRange = document.getElementById('priceRange');
+            const maxPriceValue = document.getElementById('maxPriceValue');
+            
+            if (priceRange && maxPriceValue) {
+                priceRange.addEventListener('input', function() {
+                    maxPriceValue.textContent = `$${this.value}`;
+                });
+            }
+            
+            // Size and color selection
+            document.querySelectorAll('.size-option').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+            
+            document.querySelectorAll('.color-option').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+            
+            // Render products
+            function renderProducts(productsToRender) {
+                const productsGrid = document.getElementById('productsGrid');
+                productsGrid.innerHTML = '';
+                
+                if (productsToRender.length === 0) {
+                    productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No products match your filters.</p>';
+                    return;
+                }
+                
+                productsToRender.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.dataset.id = product.id;
+                    
+                    let badgeHtml = '';
+                    if (product.badge) {
+                        badgeHtml = `<span class="product-badge">${product.badge}</span>`;
+                    }
+                    
+                    let originalPriceHtml = '';
+                    if (product.originalPrice) {
+                        originalPriceHtml = `<span class="original-price">$${product.originalPrice.toFixed(2)}</span>`;
+                    }
+                    
+                    const ratingStars = Array(5).fill().map((_, i) => {
+                        if (i < Math.floor(product.rating)) {
+                            return '<i class="fas fa-star"></i>';
+                        } else if (i === Math.floor(product.rating) && product.rating % 1 >= 0.5) {
+                            return '<i class="fas fa-star-half-alt"></i>';
+                        } else {
+                            return '<i class="far fa-star"></i>';
+                        }
+                    }).join('');
+                    
+                    productCard.innerHTML = `
+                        <div class="product-img">
+                            ${badgeHtml}
+                            <img src="${product.image}" alt="${product.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p class="product-category">${product.category.charAt(0).toUpperCase() + product.category.slice(1)} Shoes</p>
+                            <div class="product-rating">
+                                ${ratingStars}
+                                <span>(${product.ratingCount})</span>
+                            </div>
+                            <div class="price">
+                                <div>
+                                    <span class="current-price">$${product.price.toFixed(2)}</span>
+                                    ${originalPriceHtml}
+                                </div>
+                                <button class="add-to-cart">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    productsGrid.appendChild(productCard);
+                    
+                    // Add click event to navigate to product page
+                    productCard.addEventListener('click', function(e) {
+                        // Don't navigate if clicking on the add to cart button
+                        if (!e.target.closest('.add-to-cart')) {
+                            localStorage.setItem('currentProduct', JSON.stringify(product));
+                            window.location.href = 'product.html';
+                        }
+                    });
+                });
+                
+                // Update product count
+                document.getElementById('product-count').textContent = `Showing 1-${productsToRender.length} of ${productsToRender.length} products`;
+            }
+            
+            // Initial render
+            renderProducts(products);
+            
+            // Filter products
+            function filterProducts() {
+                const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(el => el.value);
+                const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(el => el.value);
+                const maxPrice = parseInt(priceRange.value);
+                const selectedSizes = Array.from(document.querySelectorAll('.size-option.selected')).map(el => parseInt(el.dataset.size));
+                const selectedColors = Array.from(document.querySelectorAll('.color-option.selected')).map(el => el.dataset.color);
+                
+                let filteredProducts = [...products];
+                
+                // Apply filters
+                if (selectedCategories.length > 0) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        selectedCategories.includes(product.category)
+                    );
+                }
+                
+                if (selectedBrands.length > 0) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        selectedBrands.includes(product.brand)
+                    );
+                }
+                
+                filteredProducts = filteredProducts.filter(product => 
+                    product.price <= maxPrice
+                );
+                
+                if (selectedSizes.length > 0) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.sizes.some(size => selectedSizes.includes(size))
+                    );
+                }
+                
+                if (selectedColors.length > 0) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.colors.some(color => selectedColors.includes(color))
+                    );
+                }
+                
+                // Sort products
+                const sortBy = document.getElementById('sortBy').value;
+                
+                switch(sortBy) {
+                    case 'price-low':
+                        filteredProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-high':
+                        filteredProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'name-asc':
+                        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'rating':
+                        filteredProducts.sort((a, b) => b.rating - a.rating);
+                        break;
+                    case 'newest':
+                        filteredProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                        break;
+                    default:
+                        // Default sorting (by id)
+                        filteredProducts.sort((a, b) => a.id - b.id);
+                }
+                
+                renderProducts(filteredProducts);
+            }
+            
+            // Apply filters
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', function() {
+                    filterProducts();
+                    
+                    // Close filters on mobile
+                    if (window.innerWidth <= 992) {
+                        filterSection.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Reset filters
+            const resetFiltersBtn = document.getElementById('resetFilters');
+            if (resetFiltersBtn) {
+                resetFiltersBtn.addEventListener('click', function() {
+                    // Reset all checkboxes
+                    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    // Reset price range
+                    priceRange.value = 300;
+                    maxPriceValue.textContent = '$300';
+                    
+                    // Reset size and color selections
+                    document.querySelectorAll('.size-option, .color-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Reset sort
+                    document.getElementById('sortBy').value = 'default';
+                    
+                    // Render all products
+                    renderProducts(products);
+                    
+                    // Close filters on mobile
+                    if (window.innerWidth <= 992) {
+                        filterSection.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Sort products
+            const sortSelect = document.getElementById('sortBy');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    filterProducts();
+                });
+            }
+            
+            // Add to cart functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.add-to-cart')) {
+                    const productCard = e.target.closest('.product-card');
+                    const productId = parseInt(productCard.dataset.id);
+                    const product = products.find(p => p.id === productId);
+                    
+                    if (product) {
+                        // Check if product already in cart
+                        const existingItem = cart.find(item => item.id === product.id);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            cart.push({
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                image: product.image,
+                                category: product.category,
+                                quantity: 1
+                            });
+                        }
+                        
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        
+                        // Show added to cart notification
+                        alert(`${product.name} has been added to your cart!`);
+                    }
+                }
+            });
+            
+            // Pagination functionality (simplified for this example)
+            const paginationButtons = document.querySelectorAll('.pagination button:not(#prevPage):not(#nextPage)');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    // In a real app, you would load the appropriate page of products here
+                });
+            });
+            
+            // Next and previous page buttons
+            document.getElementById('nextPage')?.addEventListener('click', function() {
+                const activeButton = document.querySelector('.pagination button.active');
+                const nextButton = activeButton.nextElementSibling;
+                
+                if (nextButton && !nextButton.id) {
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    nextButton.classList.add('active');
+                }
+            });
+            
+            document.getElementById('prevPage')?.addEventListener('click', function() {
+                const activeButton = document.querySelector('.pagination button.active');
+                const prevButton = activeButton.previousElementSibling;
+                
+                if (prevButton && !prevButton.id) {
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    prevButton.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
